@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+# Logs
+*.log
+npm-debug.log*
+# Environment (safe to include even if unused)
+.env
+.env.*.local
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
