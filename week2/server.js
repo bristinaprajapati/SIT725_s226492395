@@ -32,6 +32,49 @@ app.get('/add', (req, res) => {
     res.send(`The sum of ${a} and ${b} is: ${sum}`);
 });
 
+// subtraction of two numbers
+app.get('/subtract', (req, res) => {
+    const a = parseFloat(req.query.num1);
+    const b = parseFloat(req.query.num2);
+
+    if (isNaN(a) || isNaN(b)) {
+        return res.send("Error: Please provide valid numbers using query parameters 'num1' and 'num2'.");
+    }
+
+    const difference = a - b;
+    res.send(`The difference when subtracting ${b} from ${a} is: ${difference}`);
+});
+
+// multiplication of two numbers
+app.get('/multiply', (req, res) => {
+    const a = parseFloat(req.query.num1);
+    const b = parseFloat(req.query.num2);
+
+    if (isNaN(a) || isNaN(b)) {
+        return res.send("Error: Please provide valid numbers using query parameters 'num1' and 'num2'.");
+    }
+
+    const product = a * b;
+    res.send(`The product of ${a} and ${b} is: ${product}`);
+});
+
+// division of two numbers
+app.get('/divide', (req, res) => {
+    const a = parseFloat(req.query.num1);
+    const b = parseFloat(req.query.num2);
+
+    if (isNaN(a) || isNaN(b)) {
+        return res.send("Error: Please provide valid numbers using query parameters 'num1' and 'num2'.");
+    }
+
+    if (b === 0) {
+        return res.send("Error: Division by zero is not allowed.");
+    }
+
+    const quotient = a / b;
+    res.send(`The result of dividing ${a} by ${b} is: ${quotient}`);
+});
+
 
 // Start the server.
 app.listen(PORT, () => {
