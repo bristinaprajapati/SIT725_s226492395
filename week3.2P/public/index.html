@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Botanical Hub - SIT 725</title>
+
+  <!-- Materialize CSS & Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<nav>
+  <div class="nav-wrapper navbar-size">
+    <a href="#" class="brand-logo"><img class="user-image-size" src="images/plant-logo.png" alt="Logo"/></a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a target="_blank" href="https://www.linkedin.com/in/bristina-prajapati-63649325a/">LinkedIn</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="main-body">
+  <div class="container">
+    
+    <!-- Hero Section -->
+    <div class="row">
+      <div class="col s12 center-align">
+        <h1 id="heading">Welcome to Botanical Hub</h1>
+        <p class="flow-text">Explore our collection of indoor and outdoor plants designed to brighten your living space.</p>
+      </div>
+      <div class="col s12 center-align">
+        <img class="materialboxed materialboxed-image" src="images/banner.png" alt="Featured Plant">
+      </div>
+      <div class="col s12 center-align" style="margin-top: 20px;">
+        <a class="waves-effect waves-light btn click-me-button modal-trigger" id="clickMeButton" data-target="modal1">
+          <i class="material-icons left">local_florist</i>Add New Plant
+        </a>
+      </div>
+    </div>
+
+    <!-- Cards Row -->
+    <div class="row" id="card-section">
+      <!-- Static Plant Card 1 -->
+      <div class="col s12 m4 center-align">
+        <div class="card medium">
+          <div class="card-image waves-effect waves-block waves-light">
+            <img class="activator" src="images/plant1.png" alt="Fiddle Leaf Fig">
+          </div>
+          <div class="card-content">
+            <span class="card-title activator grey-text text-darken-4">Fiddle Leaf Fig<i class="material-icons right">more_vert</i></span>
+            <p><a href="#">Learn More</a></p>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">Fiddle Leaf Fig<i class="material-icons right">close</i></span>
+            <p class="card-text">Requires bright, filtered light and consistent watering schedules.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Additional Cards appended dynamically from API -->
+    </div>
+
+    <!-- Modal Form -->
+    <div id="modal1" class="modal modal-fixed-footer">
+      <div class="row modal-content">
+        <form class="col s12">
+          <h5>Add Plant Details</h5>
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="e.g. Monstera" id="first_name" type="text" class="validate">
+              <label for="first_name">Plant Name</label>
+            </div>
+            <div class="input-field col s6">
+              <input placeholder="e.g. Indoor" id="last_name" type="text" class="validate">
+              <label for="last_name">Category</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="email" type="text" class="validate">
+              <label for="email">Care Instructions</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12 center-align">
+              <a class="waves-effect waves-light btn" id="formSubmit">Submit</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="js/scripts.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "sit725-week3-prac",
+  "version": "1.0.0",
+  "description": "Plant Discovery Web Application using Express and Materialize",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bristinaprajapati/SIT725_s226492395.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "Express",
+    "Materialize",
+    "Plants",
+    "Botany"
+  ],
+  "author": "Bristina Prajapati",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
+
+
+

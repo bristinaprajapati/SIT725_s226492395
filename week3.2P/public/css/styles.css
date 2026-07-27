@@ -1,0 +1,65 @@
+.navbar-size {
+  width: 95%;
+  margin: 0 auto;
+}
+
+nav {
+  background-color: #1b5e20;
+}
+
+nav .brand-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+nav .brand-logo img {
+  display: block;
+  height: 50px;
+}
+
+/* Background Color: Updated to a botanical green (or keep #F28487 if you prefer pink!) */
+.main-body {
+  background-color: #c7f2c9; /* Forest Green theme for plants */
+  color: rgb(0, 0, 0);
+  min-height: calc(100vh - 64px); /* Allows the background to stretch down as cards are added */
+  padding-bottom: 50px;
+  
+}
+
+/* Card Flex Alignment: Keeps all cards neatly in a row */
+#card-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.materialboxed-image {
+  margin: 0 auto;
+  height: 400px;
+  object-fit: cover;
+}
+
+/* Button Styling */
+.click-me-button {
+  background-color: #1b5e20; /* Darker green for button contrast */
+  margin-top: 20px;
+}
+
+/* Fix Card Text Color (Materialize defaults reveal cards to light background) */
+.card-content,
+.card-reveal {
+  color: #333333;
+}
+
+.card-reveal .card-title,
+.card-reveal p,
+.card-content .card-title {
+  color: #333333;
+}
+
+/* Optional: Ensures images inside fixed-height cards scale properly */
+.card.medium .card-image {
+  max-height: 250px;
+  overflow: hidden;
+}
