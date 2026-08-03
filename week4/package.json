@@ -1,0 +1,31 @@
+{
+  "name": "sit725-week4-prac",
+  "version": "1.0.0",
+  "description": "SIT725 Week 4 Practical",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bristinaprajapati/SIT725_s226492395.git"
+  },
+  "keywords": [
+    "Nodejs",
+    "Express",
+    "Materialize",
+    "HTML",
+    "JS",
+    "CSS"
+  ],
+  "author": "Bristina Prajapati",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bristinaprajapati/SIT725_s226492395/issues"
+  },
+  "homepage": "https://github.com/bristinaprajapati/SIT725_s226492395#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^9.8.1"
+  }
+}

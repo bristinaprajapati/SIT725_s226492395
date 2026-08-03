@@ -1,0 +1,50 @@
+.navbar-size {
+  width: 95%;
+  margin: 0 auto;
+}
+
+nav .brand-logo {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+nav .brand-logo img {
+  display: block;
+  height: 50px;
+}
+
+/* FIX 1: Change height to min-height */
+.main-body {
+  background-color: #a7a7a7;
+  color: white;
+  min-height: calc(100vh - 64px); /* Allows the background to stretch down */
+  padding-bottom: 40px;
+}
+
+/* FIX 2: Ensure flex wrapping for card alignment */
+#card-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.materialboxed-image {
+  margin: 0 auto;
+  height: 400px;
+}
+
+.click-me-button {
+  background-color: #51b9f5;
+  margin-top: 50px;
+}
+
+.card-reveal {
+  color: black;
+}
+
+.card-reveal .card-title,
+.card-reveal p {
+  color: black;
+}
+
