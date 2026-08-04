@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Books Catalog</title>
+</head>
+<body>
+  <h1>Books Catalog</h1>
+  <ul id="booksDisplay"></ul>
+
+  <script>
+    const display = document.getElementById('booksDisplay');
+
+    async function fetchBooks() {
+      try {
+        const res = await fetch('/api/books');
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const body = await res.json();
+        
+        display.innerHTML = '';
+        if (Array.isArray(body.data)) {
+          body.data.forEach(book => {
+            const li = document.createElement('li');
+            li.textContent = `${book.title} by ${book.author}`;
+            display.appendChild(li);
+          });
+        }
+      } catch (err) {
+        console.error('Error fetching books:', err);
+      }
+    }
+
+    window.onload = fetchBooks;
+  </script>
+</body>
+</html>
