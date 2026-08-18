@@ -1,7 +1,7 @@
 const expect = require("chai").expect;
 const request = require("request");
 
-// CALCULATION FUNCTION, Slide 19
+// CALCULATION FUNCTION
 function add(a, b) {
     if (typeof a !== 'number' || typeof b !== 'number') {
         return null;
@@ -16,7 +16,7 @@ describe("Calculation Functions", function () {
     });
 });
 
-// REST API ENDPOINT TESTS, Slide 15
+// REST API ENDPOINT TESTS
 describe("Sum Calculator API", function () {
     const baseUrl = "http://localhost:3000";
 
