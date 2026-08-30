@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT725 Task 7.3P - Real-Time Live Poll</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f4f4f9; }
+        .card { background: white; padding: 20px; display: inline-block; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        button { padding: 10px 20px; font-size: 16px; margin: 10px; cursor: pointer; border: none; border-radius: 5px; color: white; }
+        .btn-a { background-color: #007bff; }
+        .btn-b { background-color: #28a745; }
+        .score { font-size: 20px; margin: 10px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Live Tech Stack Vote</h1>
+        <p>Cast your vote in real-time!</p>
+        
+        <div>
+            <button class="btn-a" onclick="vote('OptionA')">Vote Node.js</button>
+            <button class="btn-b" onclick="vote('OptionB')">Vote Python</button>
+        </div>
+
+        <div class="score">
+            <p>Node.js Votes: <strong id="countA">0</strong></p>
+            <p>Python Votes: <strong id="countB">0</strong></p>
+        </div>
+    </div>
+
+    <!-- Load Socket.IO client library before your custom script -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
