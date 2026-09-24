@@ -1,0 +1,79 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_IMAGE = "bristinaprajapati/sit725-7.3hd"
+        BUILD_TAG = "1.0.${BUILD_NUMBER}"
+    }
+
+    stages {
+        // Stage 1: Build
+        stage('Build') {
+            steps {
+                echo 'Building dependencies and Docker image...'
+                sh 'npm install'
+                sh "docker build -t ${DOCKER_IMAGE}:${BUILD_TAG} ."
+            }
+        }
+
+        // Stage 2: Test
+        stage('Test') {
+            steps {
+                echo 'Running automated tests...'
+                sh 'npm test'
+            }
+        }
+
+        // Stage 3: Code Quality
+        stage('Code Quality') {
+            steps {
+                echo 'Running ESLint code quality checks...'
+                sh 'npx eslint . --fix || true'
+            }
+        }
+
+        // Stage 4: Security
+        stage('Security') {
+            steps {
+                echo 'Running npm audit security scan...'
+                sh 'npm audit --audit-level=high || true'
+            }
+        }
+
+        // Stage 5: Deploy
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application container...'
+                sh "docker stop task73hd-container || true"
+                sh "docker rm task73hd-container || true"
+                sh "docker run -d -p 3000:3000 --name task73hd-container ${DOCKER_IMAGE}:${BUILD_TAG}"
+                sh 'sleep 3 && curl -f http://localhost:3000/health || exit 1'
+            }
+        }
+
+        // Stage 6: Release
+        stage('Release') {
+            steps {
+                echo 'Tagging and releasing Docker image...'
+                sh "docker tag ${DOCKER_IMAGE}:${BUILD_TAG} ${DOCKER_IMAGE}:latest"
+            }
+        }
+
+        // Stage 7: Monitoring
+        stage('Monitoring') {
+            steps {
+                echo 'Verifying telemetry endpoint for Prometheus...'
+                sh 'curl -f http://localhost:3000/metrics'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up workspace...'
+        }
+        success {
+            echo 'All 7 pipeline stages executed successfully!'
+        }
+    }
+}
