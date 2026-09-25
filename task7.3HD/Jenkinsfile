@@ -61,7 +61,8 @@ pipeline {
                     sh "docker stop task73hd-container || true"
                     sh "docker rm task73hd-container || true"
                     sh "docker run -d -p 3000:3000 --name task73hd-container ${DOCKER_IMAGE}:${BUILD_TAG}"
-                    sh 'sleep 3 && curl -f http://localhost:3000/health || exit 1'
+                    sh 'sleep 3'
+                    sh 'docker exec task73hd-container node -e "require(\'http\').get(\'http://localhost:3000/health\', (r) => { if (r.statusCode !== 200) process.exit(1); })"'
                 }
             }
         }
@@ -81,7 +82,7 @@ pipeline {
             steps {
                 dir('task7.3HD') {
                     echo 'Verifying telemetry endpoint for Prometheus...'
-                    sh 'curl -f http://localhost:3000/metrics'
+                    sh 'docker exec task73hd-container node -e "require(\'http\').get(\'http://localhost:3000/metrics\', (r) => { if (r.statusCode !== 200) process.exit(1); })"'
                 }
             }
         }
