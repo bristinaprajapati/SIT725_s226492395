@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <title>Student Dashboard - Student Accommodation</title>
+ 
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+ 
+<body>
+ 
+    <div class="dashboard-container">
+ 
+        <!-- Sidebar -->
+<aside class="sidebar">
+ 
+            <div>
+<h2>Student Portal</h2>
+ 
+                <p id="studentName">
+                    Student
+</p>
+ 
+                <ul>
+<li>
+<a href="/student/dashboard.html" class="active">
+                            Dashboard
+</a>
+</li>
+ 
+                    <li>
+<a href="/index.html">
+                            Rooms
+</a>
+</li>
+ 
+                    <li>
+<a href="/application.html#apply">
+                            Apply
+</a>
+</li>
+ 
+                    <li>
+<a href="/application.html#track">
+                            Track Application
+</a>
+</li>
+ 
+                    <li>
+<a href="/complaints.html">
+                            Complaints
+</a>
+</li>
+</ul>
+</div>
+ 
+            <button
+                type="button"
+                class="logout-btn"
+                onclick="logout()">
+                Logout
+</button>
+ 
+        </aside>
+ 
+ 
+        <!-- Main Content -->
+<main class="main-content">
+ 
+            <div class="dashboard-header">
+ 
+                <div>
+<h1>My Dashboard</h1>
+ 
+                    <p>
+                        Welcome, <span id="welcomeName">Student</span>.
+</p>
+</div>
+ 
+                <button
+                    id="refreshDashboardBtn"
+                    class="dashboard-refresh"
+                    type="button">
+                    Refresh
+</button>
+ 
+            </div>
+ 
+ 
+            <p id="dashboardMessage" class="dashboard-message"></p>
+           
+ 
+ 
+            <!-- Application Statistics -->
+<section class="dashboard-section">
+ 
+                <h3>My Applications</h3>
+ 
+                <div class="dashboard-grid">
+ 
+                    <div class="stat-card">
+<h4>Total Applications</h4>
+<span id="myTotalApplications" class="stat-value">0</span>
+<p>Applications you've submitted</p>
+</div>
+ 
+                    <div class="stat-card">
+<h4>Pending</h4>
+<span id="myPendingApplications" class="stat-value">0</span>
+<p>Waiting for review</p>
+</div>
+ 
+                    <div class="stat-card">
+<h4>Approved</h4>
+<span id="myApprovedApplications" class="stat-value">0</span>
+<p>Approved applications</p>
+</div>
+ 
+                    <div class="stat-card">
+<h4>Rejected</h4>
+<span id="myRejectedApplications" class="stat-value">0</span>
+<p>Rejected applications</p>
+</div>
+ 
+                </div>
+ 
+            </section>
+ 
+ 
+            <!-- Room Info -->
+<section class="dashboard-section">
+ 
+                <h3>My Room</h3>
+ 
+                <div class="dashboard-grid">
+ 
+                    <div class="stat-card">
+<h4>Current Room</h4>
+<span id="myRoom" class="stat-value">—</span>
+<p>Room assigned to you</p>
+</div>
+ 
+                    <div class="stat-card">
+<h4>Room Status</h4>
+<span id="myRoomStatus" class="stat-value">—</span>
+<p>Occupancy status</p>
+</div>
+ 
+                </div>
+ 
+            </section>
+ 
+ 
+            <!-- Complaint Statistics -->
+<section class="dashboard-section">
+ 
+                <h3>My Complaints</h3>
+ 
+                <div class="dashboard-grid">
+ 
+                    <div class="stat-card">
+<h4>Total Complaints</h4>
+<span id="myTotalComplaints" class="stat-value">0</span>
+<p>All complaints you've filed</p>
+</div>
+ 
+                    <div class="stat-card">
+<h4>Pending</h4>
+<span id="myPendingComplaints" class="stat-value">0</span>
+<p>Pending complaints</p>
+</div>
+ 
+                    <div class="stat-card">
+<h4>In Progress</h4>
+<span id="myProgressComplaints" class="stat-value">0</span>
+<p>Complaints being handled</p>
+</div>
+ 
+                    <div class="stat-card">
+<h4>Resolved</h4>
+<span id="myResolvedComplaints" class="stat-value">0</span>
+<p>Resolved complaints</p>
+</div>
+ 
+                </div>
+ 
+            </section>
+ 
+        </main>
+ 
+    </div>
+ 
+ 
+    <script>
+        // Check login
+        const userData = localStorage.getItem("user");
+        const token = localStorage.getItem("token");
+ 
+        if (!userData || !token) {
+ 
+            window.location.href = "/";
+ 
+        } else {
+ 
+            try {
+ 
+                const user = JSON.parse(userData);
+ 
+                // Only student users can access this page
+                if (user.role !== "student") {
+ 
+                    window.location.href =
+                        "/admin/dashboard.html";
+ 
+                } else {
+ 
+                    // Display student name
+                    if (user.name) {
+ 
+                        document.getElementById("studentName")
+                            .textContent = user.name;
+ 
+                        document.getElementById("welcomeName")
+                            .textContent = user.name;
+                    }
+                }
+ 
+            } catch (error) {
+ 
+                console.error("Invalid user information");
+ 
+                localStorage.removeItem("token");
+                localStorage.removeItem("user");
+ 
+                window.location.href = "/";
+            }
+        }
+ 
+ 
+        // Logout
+        function logout() {
+ 
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+ 
+            window.location.href = "/";
+        }
+</script>
+ 
+ 
+    <!-- Dashboard module -->
+<script src="/student/studentDashboard.js"></script>
+ 
+</body>
+ 
+</html>

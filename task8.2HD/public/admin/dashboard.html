@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Student Accommodation</title>
+
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/dashboard.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+  <div class="dashboard-container">
+
+ <aside class="sidebar">
+      <div>
+        <h2>Admin Portal</h2>
+        <p id="adminName">Administrator</p>
+
+        <ul>
+          <li>
+            <a href="/admin/dashboard.html" class="active">
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="/admin/rooms.html">
+              Manage Rooms
+            </a>
+          </li>
+          <li>
+            <a href="/admin/applications.html">
+              Room Applications
+            </a>
+          </li>
+          <li>
+            <a href="/admin/complaints.html">
+              Complaints
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <button
+        type="button"
+        class="logout-btn"
+        onclick="logout()"
+      >
+        Logout
+      </button>
+    </aside>
+
+    <main class="main-content">
+
+      <div class="dashboard-header">
+        <div>
+          <h1>Administrative Dashboard</h1>
+          <p>
+            Welcome,
+            <span id="welcomeName">Administrator</span>.
+          </p>
+        </div>
+
+        <button
+          id="refreshDashboardBtn"
+          class="dashboard-refresh"
+          type="button"
+        >
+          Refresh
+        </button>
+      </div>
+
+      <p
+        id="dashboardMessage"
+        class="dashboard-message"
+        aria-live="polite"
+      ></p> 
+      <p id="lastUpdated" class="dashboard-last-updated"></p>
+           <!-- Filters -->
+      <section class="dashboard-section">
+        <form id="dashboardFilters" class="dashboard-filters">
+          <div class="filter-field">
+            <label for="filterStartDate">From</label>
+            <input type="date" id="filterStartDate" name="startDate">
+          </div>
+          <div class="filter-field">
+            <label for="filterEndDate">To</label>
+            <input type="date" id="filterEndDate" name="endDate">
+          </div>
+          <div class="filter-actions">
+            <button type="submit" class="filter-apply">Apply Filters</button>
+            <button type="button" id="resetFiltersBtn" class="filter-reset">Reset</button>
+          </div>
+        </form>
+      </section>
+
+        <h3>Trends &amp; Breakdowns</h3>
+
+        <div class="chart-grid">
+
+          <div class="chart-card">
+            <h4>Applications Over Time</h4>
+            <div class="chart-container">
+              <canvas id="applicationsTrendChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h4>Complaints Over Time</h4>
+            <div class="chart-container">
+              <canvas id="complaintsTrendChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h4>Complaint Status Breakdown</h4>
+            <div class="chart-container">
+              <canvas id="complaintsBreakdownChart"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+
+        <h3>Room Statistics</h3>
+
+        <div class="dashboard-grid">
+
+          <div class="stat-card">
+            <h4>Total Rooms</h4>
+            <span id="totalRooms" class="stat-value">0</span>
+            <p>Registered rooms</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Total Capacity</h4>
+            <span id="totalCapacity" class="stat-value">0</span>
+            <p>Total available beds</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Occupied</h4>
+            <span id="totalOccupied" class="stat-value">0</span>
+            <p>Currently occupied beds</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Available</h4>
+            <span id="availableBeds" class="stat-value">0</span>
+            <p>Available beds</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Occupancy Rate</h4>
+            <span id="occupancyRate" class="stat-value">0%</span>
+            <p>Current occupancy</p>
+          </div>
+
+        </div>
+      </section>
+
+      <section
+        id="applications"
+        class="dashboard-section"
+      >
+
+        <h3>Application Statistics</h3>
+
+        <div class="dashboard-grid">
+
+          <div class="stat-card">
+            <h4>Total Applications</h4>
+            <span id="totalApplications" class="stat-value">0</span>
+            <p>All applications</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Pending</h4>
+            <span id="pendingApplications" class="stat-value">0</span>
+            <p>Waiting for review</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Approved</h4>
+            <span id="approvedApplications" class="stat-value">0</span>
+            <p>Approved applications</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Rejected</h4>
+            <span id="rejectedApplications" class="stat-value">0</span>
+            <p>Rejected applications</p>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="dashboard-section">
+
+        <h2>Submitted Room Applications</h2>
+
+        <div
+          id="applications-list"
+          class="applications-list"
+        >
+          <p>Loading applications...</p>
+        </div>
+
+      </section>
+
+      <section class="dashboard-section">
+
+        <h3>Complaint Statistics</h3>
+
+        <div class="dashboard-grid">
+
+          <div class="stat-card">
+            <h4>Total Complaints</h4>
+            <span id="totalComplaints" class="stat-value">0</span>
+            <p>All complaints</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Pending</h4>
+            <span id="pendingComplaints" class="stat-value">0</span>
+            <p>Pending complaints</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>In Progress</h4>
+            <span id="progressComplaints" class="stat-value">0</span>
+            <p>Complaints being handled</p>
+          </div>
+
+          <div class="stat-card">
+            <h4>Resolved</h4>
+            <span id="resolvedComplaints" class="stat-value">0</span>
+            <p>Resolved complaints</p>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div
+    id="detailsModal"
+    class="modal"
+    style="display: none;"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="detailsModalTitle"
+  >
+    <div class="modal-content">
+
+      <button
+        type="button"
+        class="close-btn"
+        onclick="closeModal()"
+        aria-label="Close"
+      >
+        &times;
+      </button>
+
+      <h2 id="detailsModalTitle">
+        Application Details
+      </h2>
+
+      <hr>
+
+      <div id="modalBody"></div>
+
+    </div>
+  </div>
+
+  <script src="/js/adminDashboard.js"></script>
+  <script src="/dashboard.js"></script>
+
+</body>
+</html>

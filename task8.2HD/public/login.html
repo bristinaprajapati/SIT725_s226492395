@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Accommodation - Login</title>
+    <link rel="stylesheet" href="/css/style.css">   
+</head>
+
+<body>
+
+   <div class="container login-wrapper">
+        <div class="card login-card">
+            <h1>Student Accommodation</h1>
+            <h2>Sign in to your account</h2>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" required placeholder="Enter your password">
+                </div>
+                
+                <button type="submit" class="button" style="width: 100%;">Login</button>
+            </form>
+            
+            <p id="message"></p>
+            <p><a href="/register.html">Don't have an account? Register here</a></p>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+
+</body>
+</html>

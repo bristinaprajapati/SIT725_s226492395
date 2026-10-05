@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Room Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1 class="wordmark">Room&nbsp;Directory</h1>
+      <p class="tagline">Find where you'll live next term.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="board" aria-label="Filters">
+      <div class="board-row">
+        <input id="search" type="text" placeholder="Search room, building, amenity…" autocomplete="off" />
+
+        <select id="type">
+          <option value="">Any type</option>
+          <option value="single">Single</option>
+          <option value="double">Double</option>
+          <option value="triple">Triple</option>
+          <option value="dorm">Dorm</option>
+          <option value="suite">Suite</option>
+        </select>
+
+        <select id="status">
+          <option value="">Any status</option>
+          <option value="available">Available</option>
+          <option value="reserved">Reserved</option>
+          <option value="occupied">Occupied</option>
+          <option value="maintenance">Maintenance</option>
+        </select>
+
+        <select id="sort">
+          <option value="">Newest first</option>
+          <option value="price_asc">Price: low to high</option>
+          <option value="price_desc">Price: high to low</option>
+        </select>
+      </div>
+
+      <div class="board-row">
+        <label class="price-label" for="minPrice">Min $</label>
+        <input id="minPrice" type="number" min="0" placeholder="0" />
+        <label class="price-label" for="maxPrice">Max $</label>
+        <input id="maxPrice" type="number" min="0" placeholder="1000" />
+        <button id="clearFilters" type="button">Clear filters</button>
+        <button id="savedToggle" type="button" class="saved-toggle">♡ Saved <span id="savedCount">0</span></button>
+      </div>
+    </section>
+
+    <section class="results">
+      <p id="resultCount" class="result-count"></p>
+      <div id="grid" class="grid"></div>
+      <p id="emptyState" class="empty-state" hidden>No rooms match those filters. Try widening your search.</p>
+    </section>
+  </main>
+
+  <!-- Room details modal -->
+  <div id="roomModal" class="room-modal" hidden>
+    <div class="room-modal-backdrop" id="roomModalBackdrop"></div>
+    <div class="room-modal-content">
+      <button type="button" class="room-modal-close" id="roomModalClose" aria-label="Close">&times;</button>
+      <div class="room-modal-gallery">
+        <img id="modalMainImage" class="room-modal-main-image" alt="" hidden />
+        <div id="modalMainPlaceholder" class="room-media-placeholder"></div>
+        <div id="modalThumbs" class="room-modal-thumbs"></div>
+      </div>
+      <div class="room-modal-body">
+        <div class="room-modal-head">
+          <div>
+            <div id="modalRoomNumber" class="room-number"></div>
+            <div id="modalRoomBuilding" class="room-building"></div>
+          </div>
+          <span id="modalStatusTag" class="status-tag"></span>
+        </div>
+        <div id="modalRoomType" class="room-type"></div>
+        <p id="modalDescription" class="room-desc"></p>
+        <div id="modalAmenities" class="room-amenities"></div>
+        <div class="room-foot">
+          <div id="modalPrice" class="room-price"></div>
+          <div id="modalOccupancy" class="room-occupancy"></div>
+        </div>
+        <a id="modalApplyBtn" class="apply-btn" href="#">Apply for this room</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script src="compare.js"></script>
+  <script src="/js/studentNav.js"></script>
+</body>
+</html>

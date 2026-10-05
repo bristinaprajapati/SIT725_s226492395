@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Rooms - Admin</title>
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <h2>Admin Portal</h2>
+        <p id="adminName">Administrator</p>
+        <ul>
+          <li><a href="/admin/dashboard.html">Dashboard</a></li>
+          <li><a href="/admin/rooms.html" class="active">Manage Rooms</a></li>
+          <li><a href="/admin/applications.html">Room Applications</a></li>
+          <li><a href="/admin/complaints.html">Complaints</a></li>
+        </ul>
+      </div>
+      <button type="button" class="logout-btn" id="logoutButton">Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="dashboard-header">
+        <div>
+          <h1>Manage Rooms</h1>
+          <p>Add, edit and remove room records, and track live availability.</p>
+        </div>
+        <button id="refreshButton" class="dashboard-refresh" type="button">Refresh</button>
+      </div>
+
+      <!-- Filters + Add Room -->
+      <section class="rooms-toolbar">
+        <div class="rooms-toolbar-row">
+          <input id="roomSearch" type="text" placeholder="Search room number, building, amenity…" autocomplete="off" />
+
+          <select id="typeFilter">
+            <option value="">Any type</option>
+            <option value="single">Single</option>
+            <option value="double">Double</option>
+            <option value="triple">Triple</option>
+            <option value="dorm">Dorm</option>
+            <option value="suite">Suite</option>
+          </select>
+
+          <select id="statusFilter">
+            <option value="">Any status</option>
+            <option value="available">Available</option>
+            <option value="reserved">Reserved</option>
+            <option value="occupied">Occupied</option>
+            <option value="maintenance">Maintenance</option>
+          </select>
+
+          <button type="button" class="btn btn-primary btn-add-room" id="addRoomButton">+ Add Room</button>
+        </div>
+
+        <div class="rooms-toolbar-row">
+          <span class="toolbar-label">Price $</span>
+          <input id="minPrice" type="number" min="0" placeholder="Min" />
+          <span class="toolbar-label">–</span>
+          <input id="maxPrice" type="number" min="0" placeholder="Max" />
+          <select id="sortBy">
+            <option value="">Newest first</option>
+            <option value="price_asc">Price: low to high</option>
+            <option value="price_desc">Price: high to low</option>
+          </select>
+          <button type="button" class="btn btn-ghost" id="clearFiltersButton">Clear filters</button>
+          <button type="button" class="btn btn-ghost btn-archive-toggle" id="archivedToggle">View archived</button>
+          </div>
+      </section>
+
+      <p id="roomsMessage" class="rooms-status-message">Loading rooms...</p>
+
+      <section class="admin-room-grid" id="roomsGrid"></section>
+       <nav class="rooms-pager" id="roomsPager" aria-label="Room pages" hidden></nav>
+    </main>
+  </div>
+
+  <!-- Add / Edit Room Modal -->
+  <div id="roomModal" class="modal room-form-modal" style="display: none;">
+    <div class="modal-content">
+      <span class="close-btn" id="closeRoomModal">&times;</span>
+      <h2 id="roomModalTitle">Add Room</h2>
+
+      <form id="roomForm">
+        <input type="hidden" id="roomId" />
+
+        <div class="room-form-grid">
+          <div class="form-field">
+            <label for="roomNumber">Room number *</label>
+            <input type="text" id="roomNumber" required placeholder="e.g. A-101" />
+          </div>
+
+          <div class="form-field">
+            <label for="building">Building *</label>
+            <input type="text" id="building" required placeholder="e.g. Hillcrest Hall" />
+          </div>
+
+          <div class="form-field">
+            <label for="floor">Floor *</label>
+            <input type="number" id="floor" required placeholder="e.g. 1" />
+          </div>
+
+          <div class="form-field">
+            <label for="type">Room type *</label>
+            <select id="type" required>
+              <option value="single">Single</option>
+              <option value="double">Double</option>
+              <option value="triple">Triple</option>
+              <option value="dorm">Dorm</option>
+              <option value="suite">Suite</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="capacity">Capacity *</label>
+            <input type="number" id="capacity" min="1" required placeholder="e.g. 2" />
+          </div>
+
+          <div class="form-field">
+            <label for="occupied">Currently occupied</label>
+            <input type="number" id="occupied" min="0" placeholder="0" />
+          </div>
+
+          <div class="form-field">
+            <label for="pricePerMonth">Price per month *</label>
+            <input type="number" id="pricePerMonth" min="0" required placeholder="e.g. 450" />
+          </div>
+
+          <div class="form-field">
+            <label for="status">Status</label>
+            <select id="status">
+              <option value="available">Available</option>
+              <option value="occupied">Occupied</option>
+              <option value="reserved">Reserved</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="amenities">Amenities (comma-separated)</label>
+            <input type="text" id="amenities" placeholder="wifi, desk, private bathroom" />
+          </div>
+
+          <div class="form-field form-field-full">
+           <label for="images">Images (comma-separated)</label>
+<input type="text" id="images" placeholder="/images/rooms/room-a101.jpg" />
+<p class="form-hint">Use a file path like /images/rooms/room-a101.jpg (file saved in public/images/rooms) or a full image link. The first one is used as the card photo.</p>
+          </div>
+
+          <div class="form-field form-field-full">
+            <label for="description">Description</label>
+            <textarea id="description" placeholder="Short description of the room..."></textarea>
+          </div>
+        </div>
+
+        <p id="roomFormError" class="form-error" style="display: none;"></p>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-ghost" id="cancelRoomForm">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="saveRoomButton">Save Room</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/adminRooms.js"></script>
+</body>
+</html>

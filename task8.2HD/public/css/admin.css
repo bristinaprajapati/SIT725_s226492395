@@ -1,0 +1,666 @@
+*{ 
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 260px !important;
+  min-width: 260px !important;
+  background-color: #1e293b;
+  color: #ffffff;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+sidebar h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #ffffff;
+}
+
+.sidebar #adminName,
+.sidebar p {
+  color: #94a3b8;
+  font-size: 0.875rem;
+  margin-bottom: 24px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 8px;
+}
+
+.sidebar ul li a {
+  display: block;
+  padding: 10px 14px;
+  color: #94a3b8;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background-color: #0f172a;
+  color: #fbfbfb;
+}
+
+.sidebar .logout-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar .logout-btn:hover {
+  background-color: #dc2626;
+}
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #f8fafc;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+  font-size: 1.5rem;
+  color: #0f172a;
+}
+
+.dashboard-header p {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.dashboard-refresh {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.dashboard-section {
+  margin-bottom: 30px;
+}
+
+.dashboard-section h3, .dashboard-section h2 {
+  font-size: 1.2rem;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+/* Grid Layout for Stats Cards */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: white;
+  padding: 18px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card h4 {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #2563eb;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-card p {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+/* Application Card Styling */
+.app-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.app-card h3 {
+  font-size: 1.1rem;
+  color: #1e293b;
+  margin-bottom: 8px;
+}
+
+.app-card p {
+  margin-bottom: 6px;
+  color: #475569;
+  font-size: 0.95rem;
+}
+
+.badge-pending {
+  background: #fef3c7;
+  color: #d97706;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.badge-approved {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.badge-rejected {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Modal Styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #666;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* ==========================================
+   ROOM MANAGEMENT — TOOLBAR
+========================================== */
+
+.rooms-status-message {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin-bottom: 14px;
+}
+
+.rooms-toolbar {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.rooms-toolbar-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.rooms-toolbar-row + .rooms-toolbar-row {
+  margin-top: 10px;
+}
+
+.rooms-toolbar input,
+.rooms-toolbar select {
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+
+.rooms-toolbar #roomSearch {
+  flex: 1 1 220px;
+  min-width: 180px;
+}
+
+.rooms-toolbar select { min-width: 130px; cursor: pointer; }
+.rooms-toolbar input[type="number"] { width: 100px; }
+
+.toolbar-label {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-primary { background: #2563eb; color: white; }
+.btn-primary:hover { background: #1d4ed8; }
+
+.btn-ghost {
+  background: transparent;
+  color: #2563eb;
+  border: 1px solid #2563eb;
+}
+.btn-ghost:hover { background: #eff6ff; }
+
+.btn-add-room {
+  margin-left: auto;
+}
+
+/* ==========================================
+   ROOM MANAGEMENT — CARD GRID
+========================================== */
+
+.admin-room-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.admin-room-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.admin-room-card:hover {
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.1);
+  transform: translateY(-2px);
+}
+
+.room-media {
+  position: relative;
+  height: 150px;
+  width: 100%;
+  overflow: hidden;
+  background: #e2e8f0;
+}
+
+.room-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.room-media-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.room-media-placeholder svg {
+  width: 42px;
+  height: 42px;
+  opacity: 0.85;
+}
+
+.room-media-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 3px 10px;
+  border-radius: 999px;
+  color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.room-status-available   { background: #16a34a; }
+.room-status-occupied    { background: #dc2626; }
+.room-status-reserved    { background: #d97706; }
+.room-status-maintenance { background: #64748b; }
+
+.room-card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.room-card-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.room-card-number {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.room-card-type {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: capitalize;
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 2px 9px;
+}
+
+.room-card-location {
+  font-size: 0.83rem;
+  color: #64748b;
+}
+
+.room-card-desc {
+  font-size: 0.83rem;
+  color: #475569;
+  line-height: 1.4;
+}
+
+.room-card-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 8px;
+  margin-top: auto;
+}
+
+.room-card-price {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.room-card-price span {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #94a3b8;
+}
+
+.room-card-occupancy {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.room-card-amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.room-card-amenities span {
+  font-size: 0.7rem;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.room-card-actions {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 16px;
+}
+
+.room-card-actions button {
+  flex: 1;
+  padding: 7px 0;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.btn-edit-room { background: #eff6ff; color: #2563eb; }
+.btn-edit-room:hover { background: #dbeafe; }
+
+.btn-delete-room { background: #fef2f2; color: #dc2626; }
+.btn-delete-room:hover { background: #fee2e2; }
+
+/* ==========================================
+   ROOM FORM MODAL
+========================================== */
+
+.room-form-modal .modal-content {
+  max-width: 640px;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.room-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.room-form-grid .form-field-full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 4px;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.9rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  color: #0f172a;
+}
+
+.form-field textarea {
+  resize: vertical;
+  min-height: 56px;
+}
+
+.form-hint {
+  font-size: 0.72rem;
+  color: #94a3b8;
+  margin-top: 3px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 14px;
+}
+
+.form-error {
+  background: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 0.83rem;
+  margin-top: 12px;
+}
+/* ==========================================
+   ROOM MANAGEMENT — PAGER + ARCHIVE
+========================================== */
+
+.btn-archive-toggle { margin-left: auto; }
+
+.rooms-toolbar.is-archived-view .rooms-toolbar-row input,
+.rooms-toolbar.is-archived-view .rooms-toolbar-row select,
+.rooms-toolbar.is-archived-view #clearFiltersButton,
+.rooms-toolbar.is-archived-view #addRoomButton {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.rooms-pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+.rooms-pager[hidden] { display: none; }
+
+.pager-btn {
+  min-width: 36px;
+  padding: 7px 12px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #334155;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.pager-btn:hover:not(:disabled) { background: #eff6ff; border-color: #2563eb; color: #2563eb; }
+.pager-btn.is-current { background: #2563eb; border-color: #2563eb; color: white; cursor: default; }
+.pager-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn-restore-room { background: #f0fdf4; color: #15803d; }
+.btn-restore-room:hover { background: #dcfce7; }
+
+.room-status-archived { background: #475569; }
+
+/* Sidebar & Layout Fix */
+
+
+
+.main-content {
+  flex: 1 !important;
+  min-width: 0 !important;
+  overflow-y: auto !important;
+}
+
+/* Application cards grid layout */
+#applications-list.applications-list {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important;
+  gap: 16px !important;
+}

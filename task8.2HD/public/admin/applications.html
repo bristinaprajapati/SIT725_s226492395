@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Room Applications - Admin</title>
+
+    <link rel="stylesheet" href="/css/admin.css" />
+
+    <style>
+      /* ==========================================
+       APPLICATION TABLE
+    ========================================== */
+
+      .app-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-top: 10px;
+      }
+
+      .app-table th,
+      .app-table td {
+        text-align: left;
+        padding: 12px 14px;
+        border-bottom: 1px solid #e2e8f0;
+        font-size: 14px;
+      }
+
+      .app-table th {
+        background: #f8fafc;
+        color: #334155;
+      }
+
+      .app-table tr:hover {
+        background: #f8fafc;
+      }
+
+      /* ==========================================
+       STATUS BADGES
+    ========================================== */
+
+      .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-weight: bold;
+        font-size: 12px;
+        color: white;
+      }
+
+      .Pending {
+        background: #e0a800;
+      }
+
+      .Approved {
+        background: #28a745;
+      }
+
+      .Rejected {
+        background: #dc3545;
+      }
+
+      /* ==========================================
+       ACTION BUTTONS
+    ========================================== */
+
+      .row-actions button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+        font-size: 12.5px;
+        margin-right: 6px;
+      }
+
+      .approve-btn {
+        background: #28a745;
+      }
+
+      .approve-btn:hover {
+        background: #1e7e34;
+      }
+
+      .reject-btn {
+        background: #dc3545;
+      }
+
+      .reject-btn:hover {
+        background: #b02a37;
+      }
+
+      .row-actions button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      /* ==========================================
+       BACK LINK
+    ========================================== */
+
+      .back-link {
+        display: inline-block;
+        margin-bottom: 16px;
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      /* ==========================================
+       MESSAGE
+    ========================================== */
+
+      #listMessage {
+        color: #64748b;
+        margin-bottom: 16px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="dashboard-container">
+      <!-- ==========================================
+       ADMIN SIDEBAR
+  ========================================== -->
+
+      <aside class="sidebar">
+        <div>
+          <h2>Admin Portal</h2>
+
+          <p id="adminName">Administrator</p>
+
+          <ul>
+            <li>
+              <a href="/admin/dashboard.html"> Dashboard </a>
+            </li>
+
+            <li>
+              <a href="/admin/rooms.html">Manage Rooms</a>
+            </li>
+
+            <li>
+              <a href="/admin/applications.html" class="active">
+                Room Applications
+              </a>
+            </li>
+
+            <li>
+              <a href="/admin/complaints.html"> Complaints </a>
+            </li>
+          </ul>
+        </div>
+
+        <button type="button" class="logout-btn" id="logoutButton">
+          Logout
+        </button>
+      </aside>
+
+      <!-- ==========================================
+       MAIN CONTENT
+  ========================================== -->
+
+      <main class="main-content" style="padding: 24px; flex: 1">
+        <a href="/admin/dashboard.html" class="back-link">
+          ← Back to Dashboard
+        </a>
+
+        <div class="dashboard-header">
+          <div>
+            <h1>Room Applications</h1>
+
+            <p>Review and process student accommodation applications.</p>
+          </div>
+
+          <button type="button" id="refreshButton" class="dashboard-refresh">
+            Refresh
+          </button>
+        </div>
+
+        <p id="listMessage">Loading applications...</p>
+
+        <!-- ==========================================
+         APPLICATION TABLE
+    ========================================== -->
+
+        <table class="app-table">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+
+              <th>Student Name</th>
+
+              <th>Student Email</th>
+
+              <th>Room</th>
+
+              <th>Status</th>
+
+              <th>Submitted</th>
+
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="applicationsBody"></tbody>
+        </table>
+      </main>
+    </div>
+
+    <script>
+      // ==========================================
+      // CHECK ADMIN LOGIN
+      // ==========================================
+
+      const userData = localStorage.getItem("user");
+
+      const token = localStorage.getItem("token");
+
+      if (!userData || !token) {
+        window.location.href = "/";
+      } else {
+        try {
+          const user = JSON.parse(userData);
+
+          if (user.role !== "admin") {
+            window.location.href = "/student/dashboard.html";
+          } else if (user.name) {
+            document.getElementById("adminName").textContent = user.name;
+          }
+        } catch (error) {
+          localStorage.removeItem("token");
+
+          localStorage.removeItem("user");
+
+          window.location.href = "/";
+        }
+      }
+
+      // ==========================================
+      // DOM ELEMENTS
+      // ==========================================
+
+      const tbody = document.getElementById("applicationsBody");
+
+      const listMessage = document.getElementById("listMessage");
+
+      const refreshButton = document.getElementById("refreshButton");
+
+      const logoutButton = document.getElementById("logoutButton");
+
+      // ==========================================
+      // LOGOUT
+      // ==========================================
+
+      logoutButton.addEventListener("click", function () {
+        localStorage.removeItem("token");
+
+        localStorage.removeItem("user");
+
+        window.location.href = "/";
+      });
+
+      // ==========================================
+      // LOAD APPLICATIONS
+      // ==========================================
+
+      async function loadApplications() {
+        listMessage.textContent = "Loading applications...";
+
+        try {
+          const res = await fetch("/api/applications", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(
+              data.message || data.error || "Failed to load applications.",
+            );
+          }
+
+          if (!Array.isArray(data) || data.length === 0) {
+            listMessage.textContent = "No applications submitted yet.";
+
+            tbody.innerHTML = "";
+
+            return;
+          }
+
+          listMessage.textContent = `${data.length} application${
+            data.length === 1 ? "" : "s"
+          } found.`;
+
+          tbody.innerHTML = data
+            .map((app) => {
+              const rawStatus = app.status || "Pending";
+
+              const isPending = rawStatus.toLowerCase() === "pending";
+
+              const roomTitle = app.roomTitle || app.room || "Standard Room";
+
+              const studentId = app.studentId || app.user || "N/A";
+
+              const studentName = app.studentName || app.name || "N/A";
+
+              const studentEmail =
+                app.studentEmail || (app.user && app.user.email) || "N/A";
+
+              const submittedDate = app.createdAt
+                ? new Date(app.createdAt).toLocaleDateString()
+                : "N/A";
+
+              return `
+
+                <tr data-id="${escapeHtml(app._id)}">
+
+                  <td>
+                    ${escapeHtml(studentId)}
+                  </td>
+
+
+                  <td>
+                    ${escapeHtml(studentName)}
+                  </td>
+
+                  <td>
+                    ${escapeHtml(studentEmail)} 
+                  </td>
+
+
+                  <td>
+                    ${escapeHtml(roomTitle)}
+                  </td>
+
+
+                  <td>
+
+                    <span
+                      class="badge ${escapeHtml(rawStatus)}"
+                    >
+                      ${escapeHtml(rawStatus)}
+                    </span>
+
+                  </td>
+
+
+                  <td>
+                    ${escapeHtml(submittedDate)}
+                  </td>
+
+
+              <td class="row-actions" style="display: flex; align-items: center; gap: 6px;">
+  ${
+    isPending
+      ? `
+        <button
+          class="approve-btn"
+          onclick="updateStatus('${app._id}', 'Approved')"
+        >
+          Approve
+        </button>
+        <button
+          class="reject-btn"
+          onclick="updateStatus('${app._id}', 'Rejected')"
+        >
+          Reject
+        </button>
+      `
+      : ""
+  }
+  <button
+    onclick="deleteApplication('${app._id}')"
+    title="Delete Application"
+    style="background:#475569; color:white; border:none; padding:6px 10px; border-radius:5px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:background 0.2s;"
+    onmouseover="this.style.background='#334155'"
+    onmouseout="this.style.background='#475569'"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+    </svg>
+  </button>
+</td>
+
+                </tr>
+
+              `;
+            })
+            .join("");
+        } catch (error) {
+          console.error("Application loading error:", error);
+
+          listMessage.textContent = error.message;
+
+          tbody.innerHTML = "";
+        }
+      }
+
+      // ==========================================
+      // UPDATE APPLICATION STATUS
+      // ==========================================
+
+      async function updateStatus(id, status) {
+        try {
+          const confirmed = window.confirm(
+            `Are you sure you want to ${status.toLowerCase()} this application?`,
+          );
+
+          if (!confirmed) {
+            return;
+          }
+
+          const res = await fetch(`/api/applications/${id}`, {
+            method: "PATCH",
+
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+
+            body: JSON.stringify({
+              status,
+            }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(
+              data.message || data.error || "Failed to update application.",
+            );
+          }
+
+          await loadApplications();
+        } catch (error) {
+          console.error("Application update error:", error);
+
+          alert(error.message);
+        }
+      }
+
+      // DELETE APPLICATION
+
+      async function deleteApplication(id) {
+        try {
+          const confirmed = window.confirm(
+            "Are you sure you want to permanently delete this application?",
+          );
+          if (!confirmed) return;
+
+          const res = await fetch(`/api/applications/${id}`, {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+            },
+          });
+
+          const data = await res.json();
+          if (!res.ok) {
+            throw new Error(
+              data.message || data.error || "Failed to delete application.",
+            );
+          }
+
+          await loadApplications();
+        } catch (error) {
+          console.error("Application delete error:", error);
+          alert(error.message);
+        }
+      }
+
+      // ==========================================
+      // ESCAPE HTML
+      // ==========================================
+
+      function escapeHtml(value) {
+        const div = document.createElement("div");
+
+        div.textContent = String(value ?? "");
+
+        return div.innerHTML;
+      }
+
+      // REFRESH BUTTON
+
+      refreshButton.addEventListener("click", function () {
+        loadApplications();
+      });
+
+      // INITIAL LOAD
+
+      loadApplications();
+
+      // AUTO REFRESH EVERY 5 SECONDS
+
+      setInterval(loadApplications, 5000);
+    </script>
+  </body>
+</html>

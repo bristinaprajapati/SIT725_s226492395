@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Complaint Management - Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+
+    <style>
+
+        /* ===================================== */
+        /* COMPLAINT TABLE */
+        /* ===================================== */
+
+        .complaints-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+
+        .complaints-table th,
+        .complaints-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+
+        .complaints-table th {
+            background: #f8fafc;
+            color: #334155;
+        }
+
+
+        .complaints-table tr:hover {
+            background: #f8fafc;
+        }
+
+
+
+        /* ===================================== */
+        /* FILTER AREA */
+        /* ===================================== */
+
+        .complaint-filters {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+
+        .complaint-filters input {
+            flex: 1;
+            min-width: 260px;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+
+        .complaint-filters input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+
+        .complaint-filters select {
+            min-width: 170px;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+
+        .clear-filter-btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #64748b;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+
+        .clear-filter-btn:hover {
+            background: #475569;
+        }
+
+
+
+        /* ===================================== */
+        /* STATUS */
+        /* ===================================== */
+
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        .status-pending {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+
+        .status-progress {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+
+        .status-resolved {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+
+
+        /* ===================================== */
+        /* DESCRIPTION */
+        /* ===================================== */
+
+        .description-cell {
+            max-width: 300px;
+            word-wrap: break-word;
+        }
+
+
+
+        /* ===================================== */
+        /* STATUS SELECT */
+        /* ===================================== */
+
+        .status-select {
+            padding: 7px 8px;
+            border: 1px solid #cbd5e1;
+            border-radius: 5px;
+            margin-right: 6px;
+            background: white;
+        }
+
+
+
+        /* ===================================== */
+        /* UPDATE BUTTON */
+        /* ===================================== */
+
+        .update-btn {
+            padding: 7px 12px;
+            border: none;
+            border-radius: 5px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+
+        .update-btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        .update-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+
+        /* ===================================== */
+        /* MESSAGE */
+        /* ===================================== */
+
+        .message {
+            margin-top: 15px;
+            color: #64748b;
+        }
+
+
+
+        /* ===================================== */
+        /* BACK LINK */
+        /* ===================================== */
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 16px;
+            color: #64748b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+
+
+        /* ===================================== */
+        /* RESPONSIVE TABLE */
+        /* ===================================== */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="dashboard-container">
+
+
+    <!-- ===================================== -->
+    <!-- SIDEBAR -->
+    <!-- ===================================== -->
+
+    <aside class="sidebar">
+
+        <div>
+
+            <h2>
+                Admin Portal
+            </h2>
+
+
+            <p id="adminName">
+                Administrator
+            </p>
+
+
+            <ul>
+
+                <li>
+
+                    <a href="/admin/dashboard.html">
+                        Dashboard
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="/admin/rooms.html">Manage Rooms</a>
+
+                </li>
+
+
+                <li>
+
+                    <a href="/admin/applications.html">
+                        Room Applications
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a
+                        href="/admin/complaints.html"
+                        class="active"
+                    >
+                        Complaints
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="logout-btn"
+            id="logoutButton"
+        >
+            Logout
+        </button>
+
+    </aside>
+
+
+
+    <!-- ===================================== -->
+    <!-- MAIN -->
+    <!-- ===================================== -->
+
+    <main
+        class="main-content"
+        style="padding: 24px; flex: 1"
+    >
+
+
+        <a
+            href="/admin/dashboard.html"
+            class="back-link"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+
+        <div class="dashboard-header">
+
+
+            <div>
+
+                <h1>
+                    Complaint Management
+                </h1>
+
+                <p>
+                    View student complaints, search records,
+                    filter by status and update complaint progress.
+                </p>
+
+            </div>
+
+
+            <button
+                id="refreshButton"
+                class="dashboard-refresh"
+                type="button"
+            >
+                Refresh
+            </button>
+
+
+        </div>
+
+
+
+        <!-- ===================================== -->
+        <!-- SEARCH AND FILTER -->
+        <!-- ===================================== -->
+
+        <div class="complaint-filters">
+
+
+            <input
+                type="text"
+                id="complaintSearch"
+                placeholder="Search by Student ID, name or complaint..."
+                autocomplete="off"
+            >
+
+
+            <select id="statusFilter">
+
+                <option value="All">
+                    All Statuses
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="In Progress">
+                    In Progress
+                </option>
+
+                <option value="Resolved">
+                    Resolved
+                </option>
+
+            </select>
+
+
+            <button
+                type="button"
+                id="clearFilterButton"
+                class="clear-filter-btn"
+            >
+                Clear
+            </button>
+
+
+        </div>
+
+
+
+        <!-- ===================================== -->
+        <!-- MESSAGE -->
+        <!-- ===================================== -->
+
+        <p
+            id="complaintMessage"
+            class="message"
+        >
+            Loading complaints...
+        </p>
+
+
+
+        <!-- ===================================== -->
+        <!-- COMPLAINT TABLE -->
+        <!-- ===================================== -->
+
+        <div class="table-wrapper">
+
+
+            <table class="complaints-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student ID
+                        </th>
+
+                        <th>
+                            Student Name
+                        </th>
+
+                        <th>
+                            Complaint
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Submitted
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="complaintsBody">
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<script src="/js/adminComplaints.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,668 @@
+<!-- Room Application page: submit an application and track its status -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Room Application</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: #14403f;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin: 0 0 8px;
+        }
+
+        .header p {
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #14403f;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        input {
+            padding: 11px;
+            font-size: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #14403f;
+        }
+
+        button {
+            padding: 12px;
+            background: #14403f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background: #0d2b2a;
+        }
+
+        button:disabled {
+            background: #9fb3b2;
+            cursor: not-allowed;
+        }
+
+        button.secondary {
+            background: white;
+            color: #14403f;
+            border: 1px solid #14403f;
+        }
+
+        button.secondary:hover {
+            background: #eef4f3;
+        }
+
+        .message {
+            margin-top: 15px;
+        }
+
+        .success {
+            color: #218838;
+            background: #eaf7ed;
+            padding: 12px;
+            border-radius: 5px;
+        }
+
+        .error {
+            color: #c82333;
+            background: #fdebec;
+            padding: 12px;
+            border-radius: 5px;
+        }
+
+        .error .action-link {
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: bold;
+            color: #c82333;
+            text-decoration: underline;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        .status-box {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 18px;
+            margin-top: 15px;
+        }
+
+        .status-box:has(.badge.Approved) {
+            border-color: #28a745;
+            border-width: 2px;
+        }
+
+        .status-box p {
+            margin: 6px 0;
+        }
+
+        .status-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .badge.Pending {
+            background: #e0a800;
+        }
+
+        .badge.Approved {
+            background: #28a745;
+        }
+
+        .badge.Rejected {
+            background: #dc3545;
+        }
+
+        .meta {
+            font-size: 13px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .meta code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .copy-id-btn {
+            padding: 3px 10px;
+            font-size: 12px;
+            margin: 0 0 0 6px;
+            background: #14403f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .copy-id-btn:hover {
+            background: #0d2b2a;
+        }
+
+        .live-note {
+            font-size: 13px;
+            color: #14403f;
+            margin-top: 12px;
+        }
+
+        .status-updated-flash {
+            animation: flash 1.2s ease;
+        }
+
+        @keyframes flash {
+            0% { background: #fff3cd; }
+            100% { background: transparent; }
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #14403f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="/index.html" class="back-link">← Back to Room Directory</a>
+
+    <div class="header">
+        <h1>Room Application</h1>
+        <p>Apply for student accommodation and check your application status.</p>
+    </div>
+
+    <!-- Submit Application -->
+    <div class="card" id="apply">
+
+        <h2>Apply for a Room</h2>
+
+        <form id="applyForm">
+
+            <label for="studentId">Student ID</label>
+            <input
+                type="text"
+                id="studentId"
+                placeholder="Enter your Student ID"
+                required
+            >
+
+            <label for="studentName">Full Name</label>
+            <input
+                type="text"
+                id="studentName"
+                placeholder="Enter your full name"
+                required
+            >
+
+            <label for="roomId">Room ID</label>
+            <input
+                type="text"
+                id="roomId"
+                placeholder="Example: R101"
+                required
+            >
+
+            <label for="roomTitle">Room Title</label>
+            <input
+                type="text"
+                id="roomTitle"
+                placeholder="Example: Single Room"
+                required
+            >
+
+            <button type="submit" id="applyBtn">
+                Submit Application
+            </button>
+
+        </form>
+
+        <div id="applyMessage" class="message"></div>
+
+    </div>
+
+
+    <!-- Check Application Status -->
+    <div class="card" id="track">
+
+        <h2>Check Application Status</h2>
+
+        <form id="statusForm">
+
+            <label for="checkStudentId">
+                Student ID
+            </label>
+
+            <input
+                type="text"
+                id="checkStudentId"
+                placeholder="Enter your Student ID"
+                required
+            >
+
+            <div class="status-row">
+                <button type="submit" id="checkBtn">Check Status</button>
+                <button type="button" id="autoRefreshBtn" class="secondary">Turn on live updates</button>
+            </div>
+
+        </form>
+
+        <div id="statusResult"></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    // ==========================================
+    // LOGIN GUARD (FIX: redirect if not logged in)
+    // ==========================================
+    if (!localStorage.getItem("token")) {
+        window.location.href = "/";
+    }
+
+    const STORAGE_KEY = "sas_last_student_id";
+    const POLL_INTERVAL_MS = 15000;
+
+    let pollTimer = null;
+    let lastKnownStatus = null;
+
+    // ==========================================
+    // AUTH HEADER HELPER (FIX)
+    // ==========================================
+    function authHeaders() {
+        const token = localStorage.getItem("token");
+        return token ? { "Authorization": `Bearer ${token}` } : {};
+    }
+
+    function formatDate(value) {
+        if (!value) return "N/A";
+        const d = new Date(value);
+        if (isNaN(d.getTime())) return "N/A";
+        return d.toLocaleString();
+    }
+
+    function renderStatus(data, { flash = false } = {}) {
+        const statusResult = document.getElementById("statusResult");
+
+        statusResult.innerHTML = `
+            <div class="status-box ${flash ? "status-updated-flash" : ""}">
+
+                <p>
+                    <strong>Room:</strong>
+                    ${data.roomTitle || data.roomId || "N/A"}
+                    ${data.roomTitle && data.roomId ? ` (${data.roomId})` : ""}
+                </p>
+
+                <p class="status-row">
+                    <strong>Status:</strong>
+                    <span class="badge ${data.status}">
+                        ${data.status}
+                    </span>
+                </p>
+
+                <p class="meta">
+                    Applied: ${formatDate(data.createdAt)}<br>
+                    Last updated: ${formatDate(data.updatedAt)}
+                </p>
+
+                <p class="meta">
+                    Application ID: <code id="appIdText">${data._id || "N/A"}</code>
+                    <button type="button" class="copy-id-btn" id="copyIdBtn">Copy ID</button>
+                </p>
+
+            </div>
+        `;
+
+        const copyBtn = document.getElementById("copyIdBtn");
+        if (copyBtn && data._id) {
+            copyBtn.addEventListener("click", async () => {
+                try {
+                    await navigator.clipboard.writeText(data._id);
+                    copyBtn.textContent = "Copied!";
+                    setTimeout(() => { copyBtn.textContent = "Copy ID"; }, 1500);
+                } catch (err) {
+                    console.error(err);
+                }
+            });
+        }
+    }
+
+    function renderNotFound(message) {
+        const statusResult = document.getElementById("statusResult");
+        statusResult.innerHTML = `
+            <div class="error">
+                ${message || "Application not found."}
+            </div>
+        `;
+    }
+
+    // ==========================================
+    // FETCH STATUS (FIX: now sends the token)
+    // ==========================================
+    async function fetchStatus(studentId, { silent = false } = {}) {
+        try {
+            const response = await fetch(
+                `/api/applications/${encodeURIComponent(studentId)}`,
+                { headers: authHeaders() }
+            );
+            const data = await response.json();
+
+            if (response.ok) {
+                const changed = lastKnownStatus !== null && lastKnownStatus !== data.status;
+                lastKnownStatus = data.status;
+                renderStatus(data, { flash: changed });
+                return data;
+            } else {
+                if (!silent) {
+                    renderNotFound(data.message || data.error);
+                }
+                stopPolling();
+                return null;
+            }
+        } catch (error) {
+            console.error(error);
+            if (!silent) {
+                renderNotFound("Unable to connect to the server. Please try again.");
+            }
+            return null;
+        }
+    }
+
+    function startPolling(studentId) {
+        stopPolling();
+        pollTimer = setInterval(() => fetchStatus(studentId, { silent: true }), POLL_INTERVAL_MS);
+        document.getElementById("autoRefreshBtn").textContent = "Stop live updates";
+        const statusResult = document.getElementById("statusResult");
+        const note = document.createElement("div");
+        note.className = "live-note";
+        note.id = "liveNote";
+        note.innerHTML = `Live updates on — checking for admin decisions every 15 seconds. Last checked: ${new Date().toLocaleTimeString()}`;
+        statusResult.appendChild(note);
+    }
+
+    function stopPolling() {
+        if (pollTimer) {
+            clearInterval(pollTimer);
+            pollTimer = null;
+        }
+        const btn = document.getElementById("autoRefreshBtn");
+        if (btn) btn.textContent = "Turn on live updates";
+        const note = document.getElementById("liveNote");
+        if (note) note.remove();
+    }
+
+// Prefill student details from logged-in session and lock Student ID
+window.addEventListener("DOMContentLoaded", () => {
+    const userStr = localStorage.getItem("user");
+    let loggedInStudentId = "";
+
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            loggedInStudentId = user.studentId || user.id || user._id || "";
+            
+            if (user.name || user.studentName) {
+                document.getElementById("studentName").value = user.name || user.studentName;
+            }
+        } catch (e) {
+            console.error("Error parsing user from localStorage:", e);
+        }
+    }
+
+    if (!loggedInStudentId) {
+        loggedInStudentId = localStorage.getItem(STORAGE_KEY) || "";
+    }
+
+    if (loggedInStudentId) {
+        const studentIdEl = document.getElementById("studentId");
+        const checkStudentIdEl = document.getElementById("checkStudentId");
+        
+        studentIdEl.value = loggedInStudentId;
+        studentIdEl.readOnly = true; // Locks field to match logged-in account
+        studentIdEl.style.backgroundColor = "#eef4f3";
+        
+        checkStudentIdEl.value = loggedInStudentId;
+    }
+});
+
+    // Auto-fill roomId and roomTitle from URL search params
+    window.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("roomId")) {
+            document.getElementById("roomId").value = params.get("roomId");
+        }
+        if (params.get("roomTitle")) {
+            document.getElementById("roomTitle").value = params.get("roomTitle");
+        }
+    });
+
+
+    // Submit application
+    const applyForm = document.getElementById("applyForm");
+    const applyMessage = document.getElementById("applyMessage");
+    const applyBtn = document.getElementById("applyBtn");
+
+    applyForm.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        applyMessage.innerHTML = "";
+        applyBtn.disabled = true;
+        applyBtn.textContent = "Submitting...";
+
+        const studentId = document.getElementById("studentId").value.trim();
+        const user = JSON.parse(localStorage.getItem("user") || "{}");
+        const studentEmail = user.email || "student@test.com";
+
+        const body = {
+            studentId,
+            studentName: document.getElementById("studentName").value.trim(),
+            studentEmail,
+            roomId: document.getElementById("roomId").value.trim(),
+            roomTitle: document.getElementById("roomTitle").value.trim()
+        };
+
+        try {
+
+            // FIX: send the `body` object built above (the old code used
+            // undefined variables studentName, roomId, roomTitle)
+            const response = await fetch("/api/applications", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...authHeaders()
+                },
+                body: JSON.stringify(body)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+
+                localStorage.setItem(STORAGE_KEY, studentId);
+
+                applyMessage.innerHTML = `
+                    <div class="success">
+                        Application submitted successfully! Check your live status below.
+                    </div>
+                `;
+
+                applyForm.reset();
+
+                // Pull the real record from the server instead of assuming Pending
+                document.getElementById("checkStudentId").value = studentId;
+                lastKnownStatus = null;
+                await fetchStatus(studentId);
+                startPolling(studentId);
+
+            } else if (response.status === 409) {
+
+                applyMessage.innerHTML = `
+                    <div class="error">
+                        ${data.error || "You already have an active application."}
+                        <br>
+                        <button type="button" class="action-link" id="jumpToStatus">
+                            View my existing application status →
+                        </button>
+                    </div>
+                `;
+
+                document.getElementById("jumpToStatus").addEventListener("click", () => {
+                    document.getElementById("checkStudentId").value = studentId;
+                    localStorage.setItem(STORAGE_KEY, studentId);
+                    lastKnownStatus = null;
+                    fetchStatus(studentId);
+                    document.getElementById("statusForm").scrollIntoView({ behavior: "smooth" });
+                });
+
+            } else {
+
+                applyMessage.innerHTML = `
+                    <div class="error">
+                        ${data.error || data.message || "Failed to submit application."}
+                    </div>
+                `;
+            }
+
+        } catch (error) {
+
+            console.error(error);
+
+            applyMessage.innerHTML = `
+                <div class="error">
+                    Unable to connect to the server.
+                    Please try again.
+                </div>
+            `;
+        } finally {
+            applyBtn.disabled = false;
+            applyBtn.textContent = "Submit Application";
+        }
+
+    });
+
+
+    // Checking the application status
+    const statusForm = document.getElementById("statusForm");
+    const statusResult = document.getElementById("statusResult");
+    const checkBtn = document.getElementById("checkBtn");
+    const autoRefreshBtn = document.getElementById("autoRefreshBtn");
+
+    statusForm.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        stopPolling();
+        statusResult.innerHTML = "<p>Checking application...</p>";
+
+        const studentId = document.getElementById("checkStudentId").value.trim();
+        localStorage.setItem(STORAGE_KEY, studentId);
+
+        checkBtn.disabled = true;
+        lastKnownStatus = null;
+        await fetchStatus(studentId);
+        checkBtn.disabled = false;
+
+    });
+
+    autoRefreshBtn.addEventListener("click", () => {
+        const studentId = document.getElementById("checkStudentId").value.trim();
+
+        if (!studentId) {
+            statusResult.innerHTML = `<div class="error">Enter a Student ID before turning on live updates.</div>`;
+            return;
+        }
+
+        if (pollTimer) {
+            stopPolling();
+        } else {
+            fetchStatus(studentId).then(() => startPolling(studentId));
+        }
+    });
+
+    // Stop polling if the student navigates away, to avoid dangling timers
+    window.addEventListener("beforeunload", stopPolling);
+
+</script>
+<script src="/js/studentNav.js"></script>
+</body>
+</html>

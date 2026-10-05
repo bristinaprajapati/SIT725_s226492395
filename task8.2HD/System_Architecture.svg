@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="230pt" height="498pt" viewBox="0.00 0.00 230.00 498.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 493.8)">
+<title>lifecycle</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-493.8 225.92,-493.8 225.92,4 -4,4"/>
+<!-- login -->
+<g id="node1" class="node">
+<title>login</title>
+<path fill="#e1f5ee" stroke="#0f6e56" d="M141.97,-489.8C141.97,-489.8 77.2,-489.8 77.2,-489.8 71.2,-489.8 65.2,-483.8 65.2,-477.8 65.2,-477.8 65.2,-465.8 65.2,-465.8 65.2,-459.8 71.2,-453.8 77.2,-453.8 77.2,-453.8 141.97,-453.8 141.97,-453.8 147.97,-453.8 153.97,-459.8 153.97,-465.8 153.97,-465.8 153.97,-477.8 153.97,-477.8 153.97,-483.8 147.97,-489.8 141.97,-489.8"/>
+<text xml:space="preserve" text-anchor="middle" x="109.58" y="-468.5" font-family="Helvetica,sans-Serif" font-size="11.00">Student logs in</text>
+</g>
+<!-- browse -->
+<g id="node2" class="node">
+<title>browse</title>
+<path fill="#e1f5ee" stroke="#0f6e56" d="M166.72,-416.8C166.72,-416.8 52.45,-416.8 52.45,-416.8 46.45,-416.8 40.45,-410.8 40.45,-404.8 40.45,-404.8 40.45,-392.8 40.45,-392.8 40.45,-386.8 46.45,-380.8 52.45,-380.8 52.45,-380.8 166.72,-380.8 166.72,-380.8 172.72,-380.8 178.72,-386.8 178.72,-392.8 178.72,-392.8 178.72,-404.8 178.72,-404.8 178.72,-410.8 172.72,-416.8 166.72,-416.8"/>
+<text xml:space="preserve" text-anchor="middle" x="109.58" y="-395.5" font-family="Helvetica,sans-Serif" font-size="11.00">Browses available rooms</text>
+</g>
+<!-- login&#45;&gt;browse -->
+<g id="edge1" class="edge">
+<title>login-&gt;browse</title>
+<path fill="none" stroke="black" d="M109.58,-453.61C109.58,-446.03 109.58,-436.9 109.58,-428.34"/>
+<polygon fill="black" stroke="black" points="113.08,-428.34 109.58,-418.34 106.08,-428.34 113.08,-428.34"/>
+</g>
+<!-- apply -->
+<g id="node3" class="node">
+<title>apply</title>
+<path fill="#e1f5ee" stroke="#0f6e56" d="M153.28,-343.8C153.28,-343.8 65.89,-343.8 65.89,-343.8 59.89,-343.8 53.89,-337.8 53.89,-331.8 53.89,-331.8 53.89,-319.8 53.89,-319.8 53.89,-313.8 59.89,-307.8 65.89,-307.8 65.89,-307.8 153.28,-307.8 153.28,-307.8 159.28,-307.8 165.28,-313.8 165.28,-319.8 165.28,-319.8 165.28,-331.8 165.28,-331.8 165.28,-337.8 159.28,-343.8 153.28,-343.8"/>
+<text xml:space="preserve" text-anchor="middle" x="109.58" y="-329.1" font-family="Helvetica,sans-Serif" font-size="11.00">Submits application</text>
+<text xml:space="preserve" text-anchor="middle" x="109.58" y="-315.9" font-family="Helvetica,sans-Serif" font-size="11.00">(stored as pending)</text>
+</g>
+<!-- browse&#45;&gt;apply -->
+<g id="edge2" class="edge">
+<title>browse-&gt;apply</title>
+<path fill="none" stroke="black" d="M109.58,-380.61C109.58,-373.03 109.58,-363.9 109.58,-355.34"/>
+<polygon fill="black" stroke="black" points="113.08,-355.34 109.58,-345.34 106.08,-355.34 113.08,-355.34"/>
+</g>
+<!-- review -->
+<g id="node4" class="node">
+<title>review</title>
+<path fill="#eeedfe" stroke="#534ab7" d="M169.17,-270.8C169.17,-270.8 50,-270.8 50,-270.8 44,-270.8 38,-264.8 38,-258.8 38,-258.8 38,-246.8 38,-246.8 38,-240.8 44,-234.8 50,-234.8 50,-234.8 169.17,-234.8 169.17,-234.8 175.17,-234.8 181.17,-240.8 181.17,-246.8 181.17,-246.8 181.17,-258.8 181.17,-258.8 181.17,-264.8 175.17,-270.8 169.17,-270.8"/>
+<text xml:space="preserve" text-anchor="middle" x="109.58" y="-249.5" font-family="Helvetica,sans-Serif" font-size="11.00">Admin reviews application</text>
+</g>
+<!-- apply&#45;&gt;review -->
+<g id="edge3" class="edge">
+<title>apply-&gt;review</title>
+<path fill="none" stroke="black" d="M109.58,-307.61C109.58,-300.03 109.58,-290.9 109.58,-282.34"/>
+<polygon fill="black" stroke="black" points="113.08,-282.34 109.58,-272.34 106.08,-282.34 113.08,-282.34"/>
+</g>
+<!-- decision -->
+<g id="node5" class="node">
+<title>decision</title>
+<path fill="#f1efe8" stroke="#5f5e5a" d="M97.8,-195.51C97.8,-195.51 28.73,-182.09 28.73,-182.09 22.84,-180.94 22.84,-178.66 28.73,-177.51 28.73,-177.51 97.8,-164.09 97.8,-164.09 103.69,-162.94 115.47,-162.94 121.36,-164.09 121.36,-164.09 190.44,-177.51 190.44,-177.51 196.33,-178.66 196.33,-180.94 190.44,-182.09 190.44,-182.09 121.36,-195.51 121.36,-195.51 115.47,-196.66 103.69,-196.66 97.8,-195.51"/>
+<text xml:space="preserve" text-anchor="middle" x="109.58" y="-176.5" font-family="Helvetica,sans-Serif" font-size="11.00">Approve or reject?</text>
+</g>
+<!-- review&#45;&gt;decision -->
+<g id="edge4" class="edge">
+<title>review-&gt;decision</title>
+<path fill="none" stroke="black" d="M109.58,-234.61C109.58,-227.03 109.58,-217.9 109.58,-209.34"/>
+<polygon fill="black" stroke="black" points="113.08,-209.34 109.58,-199.34 106.08,-209.34 113.08,-209.34"/>
+</g>
+<!-- approved -->
+<g id="node6" class="node">
+<title>approved</title>
+<path fill="#eaf3de" stroke="#3b6d11" d="M87.17,-109C87.17,-109 12,-109 12,-109 6,-109 0,-103 0,-97 0,-97 0,-85 0,-85 0,-79 6,-73 12,-73 12,-73 87.17,-73 87.17,-73 93.17,-73 99.17,-79 99.17,-85 99.17,-85 99.17,-97 99.17,-97 99.17,-103 93.17,-109 87.17,-109"/>
+<text xml:space="preserve" text-anchor="middle" x="49.58" y="-94.3" font-family="Helvetica,sans-Serif" font-size="11.00">Status: approved</text>
+<text xml:space="preserve" text-anchor="middle" x="49.58" y="-81.1" font-family="Helvetica,sans-Serif" font-size="11.00">Room allocated</text>
+</g>
+<!-- decision&#45;&gt;approved -->
+<g id="edge5" class="edge">
+<title>decision-&gt;approved</title>
+<path fill="none" stroke="black" d="M99.13,-163.68C90.54,-151.25 78.16,-133.33 67.92,-118.53"/>
+<polygon fill="black" stroke="black" points="70.99,-116.81 62.42,-110.58 65.23,-120.79 70.99,-116.81"/>
+<text xml:space="preserve" text-anchor="middle" x="107.5" y="-131.2" font-family="Times,serif" font-size="14.00">approve</text>
+</g>
+<!-- rejected -->
+<g id="node7" class="node">
+<title>rejected</title>
+<path fill="#faece7" stroke="#993c1d" d="M209.92,-109C209.92,-109 129.25,-109 129.25,-109 123.25,-109 117.25,-103 117.25,-97 117.25,-97 117.25,-85 117.25,-85 117.25,-79 123.25,-73 129.25,-73 129.25,-73 209.92,-73 209.92,-73 215.92,-73 221.92,-79 221.92,-85 221.92,-85 221.92,-97 221.92,-97 221.92,-103 215.92,-109 209.92,-109"/>
+<text xml:space="preserve" text-anchor="middle" x="169.58" y="-94.3" font-family="Helvetica,sans-Serif" font-size="11.00">Status: rejected</text>
+<text xml:space="preserve" text-anchor="middle" x="169.58" y="-81.1" font-family="Helvetica,sans-Serif" font-size="11.00">Application closed</text>
+</g>
+<!-- decision&#45;&gt;rejected -->
+<g id="edge6" class="edge">
+<title>decision-&gt;rejected</title>
+<path fill="none" stroke="black" d="M120.03,-163.68C128.63,-151.25 141.01,-133.33 151.25,-118.53"/>
+<polygon fill="black" stroke="black" points="153.94,-120.79 156.74,-110.58 148.18,-116.81 153.94,-120.79"/>
+<text xml:space="preserve" text-anchor="middle" x="160.5" y="-131.2" font-family="Times,serif" font-size="14.00">reject</text>
+</g>
+<!-- view -->
+<g id="node8" class="node">
+<title>view</title>
+<path fill="#e1f5ee" stroke="#0f6e56" d="M176.43,-36C176.43,-36 40.73,-36 40.73,-36 34.73,-36 28.73,-30 28.73,-24 28.73,-24 28.73,-12 28.73,-12 28.73,-6 34.73,0 40.73,0 40.73,0 176.43,0 176.43,0 182.43,0 188.43,-6 188.43,-12 188.43,-12 188.43,-24 188.43,-24 188.43,-30 182.43,-36 176.43,-36"/>
+<text xml:space="preserve" text-anchor="middle" x="108.58" y="-14.7" font-family="Helvetica,sans-Serif" font-size="11.00">Student views updated status</text>
+</g>
+<!-- approved&#45;&gt;view -->
+<g id="edge7" class="edge">
+<title>approved-&gt;view</title>
+<path fill="none" stroke="black" d="M63.87,-72.81C70.89,-64.35 79.51,-53.98 87.3,-44.61"/>
+<polygon fill="black" stroke="black" points="89.77,-47.12 93.46,-37.19 84.38,-42.65 89.77,-47.12"/>
+</g>
+<!-- rejected&#45;&gt;view -->
+<g id="edge8" class="edge">
+<title>rejected-&gt;view</title>
+<path fill="none" stroke="black" d="M154.82,-72.81C147.55,-64.35 138.64,-53.98 130.59,-44.61"/>
+<polygon fill="black" stroke="black" points="133.37,-42.48 124.2,-37.18 128.06,-47.04 133.37,-42.48"/>
+</g>
+</g>
+</svg>

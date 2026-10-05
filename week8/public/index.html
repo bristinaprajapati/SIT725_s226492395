@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timestamp App</title>
+</head>
+<body>
+  <h1>Click the button to store a timestamp</h1>
+  <button id="clickBtn">Click me</button>
+  <script>
+    document.getElementById('clickBtn').addEventListener('click', () => {
+      fetch('/api/click', { method: 'POST' })
+        .then(res => res.json())
+        .then(data => alert('Timestamp stored: ' + data.clickedAt));
+    });
+  </script>
+</body>
+</html>

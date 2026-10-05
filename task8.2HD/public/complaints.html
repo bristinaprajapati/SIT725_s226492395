@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Student Complaints</title>
+
+    <!-- Main project styles -->
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ====================================== -->
+<!-- HEADER -->
+<!-- ====================================== -->
+
+<header>
+
+    <div class="container">
+
+        <h1>
+            Student Accommodation Management System
+        </h1>
+
+        <nav>
+
+            <a href="/index.html">
+                Home
+            </a>
+
+            <a
+                href="/complaints.html"
+                class="active"
+            >
+                Complaints
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<!-- ====================================== -->
+<!-- MAIN CONTENT -->
+<!-- ====================================== -->
+
+<main class="container">
+
+
+    <!-- ====================================== -->
+    <!-- PAGE HEADING -->
+    <!-- ====================================== -->
+
+    <section class="card">
+
+        <h2>
+            Student Complaint Portal
+        </h2>
+
+        <p>
+            Report accommodation problems and check the
+            status of complaints you have already submitted.
+        </p>
+
+    </section>
+
+
+
+    <!-- ====================================== -->
+    <!-- SUBMIT NEW COMPLAINT -->
+    <!-- ====================================== -->
+
+    <section class="card">
+
+        <h2>
+            Report an Accommodation Complaint
+        </h2>
+
+        <p>
+            Please provide your student details and describe
+            the room or accommodation problem.
+        </p>
+
+
+        <!-- Success / error message -->
+
+        <div
+            id="message"
+            class="message"
+            role="alert"
+        >
+        </div>
+
+
+
+        <form id="complaintForm">
+
+
+            <!-- Student ID -->
+
+            <div class="form-group">
+
+                <label for="studentId">
+                    Student ID
+                </label>
+
+                <input
+                    type="text"
+                    id="studentId"
+                    name="studentId"
+                    placeholder="Example: S225562551"
+                    autocomplete="off"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- Student Name -->
+
+            <div class="form-group">
+
+                <label for="studentName">
+                    Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    name="studentName"
+                    placeholder="Enter your full name"
+                    autocomplete="name"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- Complaint Description -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Describe your accommodation issue
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="6"
+                    maxlength="500"
+                    placeholder="Example: The light in my room is not working properly."
+                    required
+                ></textarea>
+
+                <small>
+                    Maximum 500 characters
+                </small>
+
+            </div>
+
+
+
+            <!-- Submit Button -->
+
+            <button
+                type="submit"
+                class="button"
+                id="submitComplaintButton"
+            >
+                Submit Complaint
+            </button>
+
+
+        </form>
+
+    </section>
+
+
+
+    <!-- ====================================== -->
+    <!-- VIEW EXISTING COMPLAINTS -->
+    <!-- ====================================== -->
+
+    <section class="card">
+
+        <h2>
+            My Complaints
+        </h2>
+
+        <p>
+            Enter your Student ID to view your submitted
+            complaints and their current status.
+        </p>
+
+
+
+        <!-- Search Student ID -->
+
+        <div class="form-group">
+
+            <label for="complaintSearchStudentId">
+                Student ID
+            </label>
+
+            <input
+                type="text"
+                id="complaintSearchStudentId"
+                name="complaintSearchStudentId"
+                placeholder="Example: S225562551"
+                autocomplete="off"
+            >
+
+        </div>
+
+
+
+        <!-- Load Complaints Button -->
+
+        <button
+            id="loadComplaints"
+            type="button"
+            class="button secondary"
+        >
+            Load Complaints
+        </button>
+
+
+
+        <!-- Complaint Results -->
+
+        <div
+            id="complaintsContainer"
+            aria-live="polite"
+        >
+
+            <p>
+                Enter your Student ID and click
+                <strong>Load Complaints</strong>
+                to view your complaint history.
+            </p>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- ====================================== -->
+<!-- FOOTER -->
+<!-- ====================================== -->
+
+<footer>
+
+    <p>
+        SIT725 - Applied Software Engineering
+    </p>
+
+    <p>
+        Student Accommodation Management System
+    </p>
+
+</footer>
+
+
+
+<!-- ====================================== -->
+<!-- JAVASCRIPT -->
+<!-- ====================================== -->
+
+<script src="/js/complaints.js"></script>
+
+<script src="/js/studentNav.js"></script>
+</body>
+
+</html>
